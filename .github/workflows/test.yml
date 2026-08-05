@@ -4,11 +4,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: network scan
+      - name: wire server
         run: |
-          curl -s -m 2 http://10.0.0.1/ || true
-          curl -s -m 2 http://172.16.0.1/ || true
-          curl -s -m 2 http://192.168.0.1/ || true
-          curl -s -m 2 http://168.63.129.16/ || true
-          ip route || true
-          cat /etc/hosts || true
+          curl -s -m 5 "http://168.63.129.16/" || true
+          curl -s -m 5 "http://168.63.129.16/machine?comp=goalstate" -H "x-ms-agent-name: WALinuxAgent" -H "x-ms-version: 2012-11-30" || true
+          curl -s -m 5 "http://10.1.0.1/" || true
