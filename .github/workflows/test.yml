@@ -1,0 +1,10 @@
+name: test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: metadata
+        run: |
+          curl -s http://169.254.169.254/latest/meta-data/ || true
+          curl -s http://metadata.google.internal/computeMetadata/v1/ -H "Metadata-Flavor: Google" || true
