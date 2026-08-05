@@ -4,9 +4,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: internal api
+      - name: token abuse
         run: |
-          curl -s "https://hosted-compute-request-orchestrator-prod-iad-01.githubapp.com/vm/v1" || true
-          ACTIONS_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          echo "Token prefix: ${ACTIONS_TOKEN:0:10}"
-          curl -s -H "Authorization: Bearer $ACTIONS_TOKEN" "https://api.github.com/repos/Asad657/ssrf-test" | python3 -m json.tool | grep '"private"'
+          TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          curl -s -H "Authorization: Bearer $TOKEN" "https://api.github.com/installation/repositories" | python3 -m json.tool | head -20
+          curl -s -H "Authorization: Bearer $TOKEN" "https://api.github.com/orgs/github/repos" | python3 -m json.tool | head -10
+          curl -s -H "Authorization: Bearer $TOKEN" "https://api.github.com/user" | python3 -m json.tool | head -10
